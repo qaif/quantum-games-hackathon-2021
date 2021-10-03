@@ -3,6 +3,7 @@ import sys
 import random
 from pygame.constants import SYSTEM_CURSOR_SIZEALL
 from pygame.transform import rotate, smoothscale
+import textwrap
 
 
 def rotateBird(bird):
@@ -108,9 +109,92 @@ def checkCollision(pipes):
 
 #     return True
 
+def gameIntro():
+    intro = True
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                intro = False
+            if event.type == pygame.KEYDOWN:  # check if any key is pressed
+                if event.key == pygame.K_SPACE:
+                    intro = True
+                    # overlay
+                    overlaySize = (screenWidth, screenHeight)
+                    overlaySurface = pygame.Surface(overlaySize)
+                    pygame.draw.rect(overlaySurface, pygame.Color(
+                        0, 0, 0), overlaySurface.get_rect())
+                    overlaySurface.set_alpha(90)
+                    screen.blit(overlaySurface, (0, 0))
+
+                    # title
+                    titleSurface = gameFont.render(
+                        'Welcome to MoQingbird', True, (255, 255, 255))
+                    titleRect = titleSurface.get_rect(
+                        center=(screenWidth/2, 100))
+                    screen.blit(titleSurface, titleRect)
+
+                    # instructions: how do I change font?
+                    line1 = 'The gameplay is based on the Stern-Gerlach experiment.The pipes represent a magnet and the bird represents an electron.'
+                    line2 = 'After passing through the pipes, the aim is to make the bird pass through either the ring above or below, similar to how the electrons either'
+                    line3 = ' display positive spin or negative spin after passing through a magnet in the Stern-Gerlach experiment setup.'
+                    line4 = 'Players win a point for every pipe they pass, and the positive and negative spins are also counted.'
+                    line5 = ''
+
+                    #message = [line1, line2, line3, line4, line4]
+                    # for line in message:
+                    #     index = message.index(line)
+                    #     # Wrap this text.
+                    #     # wrapper = textwrap.TextWrapper(width=5000)
+                    #     # wrappedMessage = wrapper.fill(text=message)
+                    #     messageSurface = messageFont.render(
+                    #         str(line), True, (255, 255, 255))
+                    #     messageRect = messageSurface.get_rect(
+                    #         midleft=(0, index*10+300))
+                    #     screen.blit(messageSurface, messageRect)
+                    line1Surface = messageFont.render(
+                        line1, True, (255, 255, 255))
+                    line1Rect = line1Surface.get_rect(
+                        midleft=(50, 300))
+                    screen.blit(line1Surface, line1Rect)
+
+                    line2Surface = messageFont.render(
+                        line2, True, (255, 255, 255))
+                    line2Rect = line2Surface.get_rect(
+                        midleft=(50, 350))
+                    screen.blit(line2Surface, line2Rect)
+
+                    line3Surface = messageFont.render(
+                        line3, True, (255, 255, 255))
+                    line3Rect = line3Surface.get_rect(
+                        midleft=(50, 400))
+                    screen.blit(line3Surface, line3Rect)
+
+                    line4Surface = messageFont.render(
+                        line4, True, (255, 255, 255))
+                    line4Rect = line4Surface.get_rect(
+                        midleft=(50, 450))
+                    screen.blit(line4Surface, line4Rect)
+
+                    line5Surface = messageFont.render(
+                        line5, True, (255, 255, 255))
+                    line5Rect = line5Surface.get_rect(
+                        midleft=(50, 500))
+                    screen.blit(line5Surface, line5Rect)
+
+                    # end message
+                    endMessage = gameFont.render(
+                        'Happy flapping!', True, (255, 255, 255))
+                    endMessageRect = endMessage.get_rect(
+                        center=(screenWidth/2, 700))
+                    screen.blit(endMessage, endMessageRect)
+
+                    clock.tick(15)
+                    pygame.display.update()
+
 
 def scoreDisplay(gameState):  # this function works fine: displays all the scores
-    # to recognise the state of the game and display high score automatically, based on if the game is over or not:
+    # to recognise the state of the game and display high score automatically, based on if the game is over or not.
+
     if gameState == 'mainGame':
         # anti-aliasing settings here
         scoreSurface = gameFont.render(
@@ -226,6 +310,8 @@ clock = pygame.time.Clock()
 # Font
 gameFont = pygame.font.Font(
     'D:\\Shraze\\The One\\1. Fire\\4. Side Projects\\Flappy Bird\\Assets\\CODA\\04B_19.TTF', 40)
+messageFont = pygame.font.Font(
+    'D:\\Shraze\\The One\\1. Fire\\4. Side Projects\\Flappy Bird\\Assets\\CODA\\Poppins-Light.ttf', 20)
 
 # GAME VARIABLES
 gravity = 0.25
@@ -311,6 +397,9 @@ scoreSound = pygame.mixer.Sound(
 scoreSoundCountdown = 100
 SCOREEVENT = pygame.USEREVENT + 2
 pygame.time.set_timer(SCOREEVENT, 100)
+
+gameIntro()
+
 # this is our main event loop
 while True:
     for event in pygame.event.get():
