@@ -16,4 +16,4 @@ The beam of silver atoms divides in two, depending on the spin of the 47th elect
 
 # How to Play
 
-Downlaod the GitHub repo and run the python file in any notebook. Then sit back and enjoy!
+Downlaod the GitHub repo and run the python file in any notebook. 
